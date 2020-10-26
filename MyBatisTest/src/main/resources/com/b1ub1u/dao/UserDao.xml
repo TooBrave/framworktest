@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.b1ub1u.dao.UserDao">
+    <!-- 不能与resultType同时使用 -->
+<!--    <resultMap id="userMap" type="user">-->
+<!--        <id property="userId" column="id"></id>-->
+<!--        <result property="userName" column="username"></result>-->
+<!--        <result property="userAddress" column="address"></result>-->
+<!--        <result property="userSex" column="sex"></result>-->
+<!--        <result property="userBirthday" column="birthday"></result>-->
+<!--    </resultMap>-->
+
+    <resultMap id="userAccountMap" type="user">
+        <id property="userId" column="id"></id>
+        <result property="userName" column="username"></result>
+        <result property="userAddress" column="address"></result>
+        <result property="userSex" column="sex"></result>
+        <result property="userBirthday" column="birthday"></result>
+        <collection property="accounts" ofType="account">
+            <id column="aid" property="id"/>
+            <result column="uid" property="uid"/>
+            <result column="money" property="money"/>
+        </collection>
+    </resultMap>
+
+
+
+    <sql id="defaultSql">
+        select * from user
+    </sql>
+
+    <select id="findAllUA" resultMap="userAccountMap">
+--         select * from user u left outer join account a on u.id=a.uid
+
+        select u.*,a.id as aid ,a.uid,a.money from user u left outer join account
+ a on u.id =a.uid
+    </select>
+
+
+    <!-- 增加 -->
+
+
+
+<!--    <insert id="insertUser" parameterType="User">-->
+<!--        <selectKey keyColumn="id" keyProperty="userId" resultType="int">-->
+<!--            select last_insert_id()-->
+<!--        </selectKey>-->
+<!--        insert into user(username,birthday,sex,address) values(#{userName}, #{userBirthday}, #{userSex}, #{userAddress})-->
+<!--    </insert>-->
+
+<!--    &lt;!&ndash; 删除 &ndash;&gt;-->
+<!--    <delete id="deleteById" parameterType="int" >-->
+<!--        delete from user where id=#{userid}-->
+<!--    </delete>-->
+
+<!--    &lt;!&ndash; 更改 &ndash;&gt;-->
+<!--    <update id="updateUser" parameterType="User" >-->
+<!--        update user set username=#{userName}, birthday=#{userBirthday}, sex=#{userSex},address=#{userAddress}-->
+<!--            where id=#{userId}-->
+<!--    </update>-->
+
+<!--&lt;!&ndash;     查询&ndash;&gt;-->
+<!--    <select id="findAll" resultMap="userMap">-->
+<!--        select * from user-->
+<!--    </select>-->
+
+<!--    <select id="findById" parameterType="int" resultMap="userMap">-->
+<!--        select * from user where id=#{id}-->
+<!--    </select>-->
+
+<!--    <select id="findByName" parameterType="String" resultMap="userMap">-->
+<!--        select * from user where username like #{nameLike}-->
+<!--    </select>-->
+
+<!--    <select id="calTotal"  resultType="int">-->
+<!--        select count(*) from user-->
+<!--    </select>-->
+
+<!--    <select id="findByVo"  parameterType="QueryVo" resultMap="userMap">-->
+<!--        select * from user where address like #{user.userAddress}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash; 动态SQL &ndash;&gt;-->
+<!--    <select id="findByUser" resultMap="userMap" parameterType="User">-->
+<!--        select * from user-->
+<!--        <where>-->
+<!--            <if test="userName != null">          &lt;!&ndash; 注意是userName而不是username&ndash;&gt;-->
+<!--                and username like #{userName}-->
+<!--            </if>-->
+
+<!--            <if test="userAddress != null">       &lt;!&ndash; 注意是userAddress而不是adress&ndash;&gt;-->
+<!--                and address like #{userAddress}-->
+<!--            </if>-->
+
+<!--        </where>-->
+<!--    </select>-->
+
+<!--    <select id="findByIds" resultMap="userMap" parameterType="QueryVo">-->
+<!--        <include refid="defaultSql"></include>-->
+<!--        <where>-->
+<!--            <if test="ids != null and ids.size()>0">-->
+<!--                <foreach collection="ids" open=" id in ( " close=")" item="userId" separator="," >-->
+<!--                    #{userId}-->
+<!--                </foreach>-->
+<!--            </if>-->
+<!--        </where>-->
+<!--    </select>-->
+
+
+
+<!--    &lt;!&ndash; 增加 &ndash;&gt;-->
+<!--    <insert id="insertUser" parameterType="User">-->
+<!--        <selectKey keyColumn="id" keyProperty="id" resultType="int">-->
+<!--            select last_insert_id()-->
+<!--        </selectKey>-->
+<!--        insert into user(username,birthday,sex,address) values(#{username}, #{birthday}, #{sex}, #{address})-->
+<!--    </insert>-->
+
+<!--    &lt;!&ndash; 删除 &ndash;&gt;-->
+<!--    <delete id="deleteById" parameterType="int" >-->
+<!--        delete from user where id=#{id}-->
+<!--    </delete>-->
+
+<!--    &lt;!&ndash; 更改 &ndash;&gt;-->
+<!--    <update id="updateUser" parameterType="User" >-->
+<!--        update user set username=#{username}, birthday=#{birthday}, sex=#{sex},address=#{address}-->
+<!--            where id=#{id}-->
+<!--    </update>-->
+
+<!--    &lt;!&ndash; 查询 &ndash;&gt;-->
+<!--&lt;!&ndash;    <select id="findAll" resultType="com.b1ub1u.domain.User"> 当配置了别名，前面的包名可以省略,并且类名不分大小写&ndash;&gt;-->
+<!--&lt;!&ndash;        select * from user&ndash;&gt;-->
+<!--&lt;!&ndash;    </select>&ndash;&gt;-->
+<!--    <select id="findAll" resultType="User">-->
+<!--        select * from user-->
+<!--    </select>-->
+
+<!--    <select id="findById" parameterType="int" resultType="User">-->
+<!--        select * from user where id=#{id}-->
+<!--    </select>-->
+
+<!--    <select id="findByName" parameterType="String" resultType="User">-->
+<!--        select * from user where username like #{nameLike}-->
+<!--    </select>-->
+
+<!--    <select id="calTotal"  resultType="int">-->
+<!--        select count(*) from user-->
+<!--    </select>-->
+
+<!--    <select id="findByVo"  parameterType="queryvo" resultType="user">-->
+<!--        select * from user where address like #{user.address}-->
+<!--    </select>-->
+
+
+
+
+</mapper>
