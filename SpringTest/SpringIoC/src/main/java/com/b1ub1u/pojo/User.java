@@ -1,0 +1,45 @@
+package com.b1ub1u.pojo;
+
+public class User {
+    private String name;
+    private int age;
+
+    public User() {
+
+    }
+
+    public User(String name, int age) {
+        this.name = name;
+        this.age = age;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+//    public User() {
+//        System.out.println("User init");
+//    }
+
+
+
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                '}';
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+}

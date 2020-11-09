@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="cat" class="com.b1ub1u.Cat"/>
+    <bean id="dog" class="com.b1ub1u.Dog"/>
+
+    <!--    byName 自动装配-->
+    <bean id="people" class="com.b1ub1u.People" autowire="byName">
+        <property name="name" value="TerryS"/>
+<!--        <property name="cat" ref="cat"/>-->
+<!--        <property name="dog" ref="dog"/>-->
+    </bean>
+
+<!--    byType 自动装配-->
+<!--    需要保证bean的class唯一，并且和注入属性一直-->
+</beans>

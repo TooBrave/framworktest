@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <aop:config>
+        <aop:pointcut id="accountServicePoint" expression="execution(* com.b1ub1u.service.AccountServiceImpl.*(..))"/>
+        <aop:aspect id="tsAdvice" ref="tsManager">
+            <aop:before method="beginTransaction" pointcut-ref="accountServicePoint"></aop:before>
+            <aop:after-returning method="commit" pointcut-ref="accountServicePoint"></aop:after-returning>
+            <aop:after-throwing method="rollback" pointcut-ref="accountServicePoint"></aop:after-throwing>
+            <aop:after method="release" pointcut-ref="accountServicePoint"></aop:after>
+        </aop:aspect>
+    </aop:config>
+
+    <!-- 配置Service -->
+    <bean id="accountService" class="com.b1ub1u.service.AccountServiceImpl">
+        <!-- 注入dao -->
+        <property name="accountDao" ref="accountDao"></property>
+    </bean>
+
+    <!--配置Dao对象-->
+    <bean id="accountDao" class="com.b1ub1u.dao.Impl.AccountDaoImpl">
+        <!-- 注入QueryRunner -->
+        <property name="runner" ref="runner"></property>
+        <!-- 注入ConnectionUtils -->
+        <property name="connectionUtils" ref="connectionUtils"></property>
+    </bean>
+
+    <!--配置QueryRunner-->
+    <bean id="runner" class="org.apache.commons.dbutils.QueryRunner" scope="prototype"></bean>
+
+    <!-- 配置数据源 -->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <!--连接数据库的必备信息-->
+        <property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/eesy"></property>
+        <property name="user" value="root"></property>
+        <property name="password" value="root"></property>
+    </bean>
+
+    <!-- 配置Connection的工具类 ConnectionUtils -->
+    <bean id="connectionUtils" class="com.b1ub1u.utils.ConnectionUtils">
+        <!-- 注入数据源-->
+        <property name="dataSource" ref="dataSource"></property>
+    </bean>
+
+    <!-- 配置事务管理器-->
+    <bean id="tsManager" class="com.b1ub1u.utils.TransactionManager">
+        <!-- 注入ConnectionUtils -->
+        <property name="connectionUtils" ref="connectionUtils"></property>
+    </bean>
+
+</beans>
+

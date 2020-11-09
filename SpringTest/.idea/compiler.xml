@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="xmlIoc" />
+        <module name="IocAnnWithoutXml" />
+        <module name="Spring-Annotation" />
+        <module name="SpringIoC" />
+        <module name="Spring-autowired" />
+        <module name="JavaConfig" />
+        <module name="SpringTransactionTest" />
+        <module name="AOP" />
+        <module name="IocAnn" />
+        <module name="SpringTransactionManager" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="day01-jdbc" target="1.5" />
+    </bytecodeTargetLevel>
+  </component>
+</project>
